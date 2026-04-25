@@ -124,17 +124,64 @@ p{color:#ccc;margin:0 0 12px;}
   background-position:calc(20% + 350px) top;
   background-repeat:no-repeat;
   background-size: cover;
+  position:relative;
+}
+.logo-area{
+  position:absolute;
+  top:50%;
+  right:80px;
+  transform:translateY(-50%);
+  z-index:2;
+}
+.logo-img{
+  height:240px;
+  width:auto;
+  opacity:0.9;
 }
 
 @media(max-width:768px){
-  section{padding:80px 7%;}
+  section{margin-bottom:5px;padding:0% 0%;}
   h1{font-size:34px;}
+
+  .hero{
+    height:auto;
+    max-height:none;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    background-position:center top;
+  }
+
+  .logo-area{
+    position:static;
+    transform:none;
+    width:100%;
+    text-align:center;
+    margin:24px 0 8px;
+    order:-1;
+    z-index:2;
+  }
+
+  .logo-img{
+    height:120px;
+    width:auto;
+    max-width:80%;
+  }
+
+  .hero .content{
+    width:100%;
+    box-sizing:border-box;
+    padding:32px 28px 72px;
+  }
+
   .content{
-    padding:28px;
+    padding:88px 28px;
     background: linear-gradient(
-      180deg,
-      rgba(0,0,0,0.7) 0%,
-      rgba(0,0,0,0.4) 60%,
+      90deg,
+      rgba(0,0,0,0.9) 0%,
+      rgba(0,0,0,0.0) 60%,
       rgba(0,0,0,0) 100%
     );
   }
@@ -262,23 +309,51 @@ p{color:#ccc;margin:0 0 12px;}
     font-size:18px;
   }
 } 
-}
 .initial{ color:#910000; font-weight: 700;}
 .other-list{list-style:none;padding:0;margin:12px 0 8px;}
 .other-list li{margin:6px 0;}
 .other-list a{color:#d7dde6;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:2px;transition:all .2s;}
 .other-list a:hover{color:#00d1ff;border-color:#00d1ff;}
+
+
+/* スマホゲーム新規IPルック開発：矢印クリック専用・慣性スクロール風・横無限ループ */
+.look-scroll-section{padding:0;min-height:100vh;background:#05070b;border-bottom:1px solid #222;overflow:hidden;}
+.look-scroll-section::before{display:none !important;}
+.look-scroll-sticky{position:relative;height:100vh;width:100%;overflow:hidden;display:flex;align-items:center;background:#05070b;}
+.look-scroll-sticky::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(circle at 50% 50%, rgba(0,209,255,.08), rgba(0,0,0,0) 42%),linear-gradient(90deg, rgba(5,7,11,0.95) 0%, rgba(5,7,11,0.08) 18%, rgba(5,7,11,0.08) 82%, rgba(5,7,11,0.95) 100%);}
+.look-scroll-viewport{position:relative;z-index:2;width:100%;height:100%;overflow:hidden;display:flex;align-items:center;touch-action:pan-y;}
+.look-scroll-stage{position:relative;height:100%;display:flex;align-items:center;gap:7vw;padding:0 14vw;will-change:transform;transform:translate3d(0,0,0);transition:transform .72s cubic-bezier(.16,.84,.22,1);backface-visibility:hidden;}
+.look-scroll-card{position:relative;flex:0 0 auto;width:min(70vw,1080px);height:min(68vh,700px);margin:0;border-radius:20px;overflow:hidden;box-shadow:0 28px 90px rgba(0,0,0,0.65);opacity:.34;transform:translateZ(0);transition:opacity .18s ease;will-change:opacity;pointer-events:none;backface-visibility:hidden;background:#111;}
+.look-scroll-card.is-active{opacity:1;}
+.look-scroll-img{width:100%;height:100%;object-fit:cover;display:block;transform:translateZ(0);backface-visibility:hidden;}
+.look-scroll-caption{position:absolute;left:50%;bottom:28px;top:auto;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;width:min(72%,560px);min-height:44px;padding:10px 16px;border:none;border-radius:999px;background:rgba(0,0,0,.58);backdrop-filter:blur(2px);color:#fff;font-size:13px;font-weight:600;line-height:1.45;letter-spacing:.03em;text-align:center;text-shadow:0 2px 10px rgba(0,0,0,.75);box-sizing:border-box;}
+.look-scroll-caption .caption-sub{display:block;margin-top:2px;color:#cfd6df;font-size:10px;font-weight:500;letter-spacing:.08em;}
+.look-scroll-title{position:absolute;left:7vw;top:7vh;bottom:auto;z-index:4;max-width:460px;padding:18px 24px;border-left:3px solid #00d1ff;background:linear-gradient(90deg, rgba(0,0,0,.78), rgba(0,0,0,.24));backdrop-filter:blur(2px);}
+.look-scroll-title h2{margin:0 0 8px;font-size:26px;color:#fff;}
+.look-scroll-title p{margin:0;color:#cfd6df;font-size:13px;}
+.look-scroll-dots{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;gap:10px;z-index:5;}
+.look-scroll-dot{width:28px;height:7px;border-radius:999px;background:rgba(255,255,255,.22);transition:background .25s ease, width .25s ease;}
+.look-scroll-dot.is-active{width:48px;background:#00d1ff;}
+.look-scroll-arrow{position:absolute;top:50%;z-index:6;width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.42);color:#fff;font-size:32px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(3px);transition:background .25s ease, border-color .25s ease, opacity .25s ease, transform .25s ease;}
+.look-scroll-arrow:hover{background:rgba(0,209,255,.18);border-color:#00d1ff;}
+.look-scroll-arrow:active{transform:translateY(-50%) scale(.96);}
+.look-scroll-prev{left:28px;transform:translateY(-50%);}
+.look-scroll-next{right:28px;transform:translateY(-50%);}
+@media(max-width:768px){.look-scroll-section{min-height:100vh;}.look-scroll-stage{gap:8vw;padding:0 9vw;}.look-scroll-card{width:82vw;height:58vh;border-radius:14px;margin-top:12vh;}.look-scroll-caption{bottom:18px;width:min(78%,420px);min-height:38px;padding:8px 13px;font-size:11px;line-height:1.4;border-radius:999px;}.look-scroll-caption .caption-sub{font-size:9px;}.look-scroll-title{left:22px;right:22px;top:24px;bottom:auto;max-width:none;padding:14px 16px;}.look-scroll-title h2{font-size:20px;line-height:1.35;}.look-scroll-dots{bottom:22px;}.look-scroll-arrow{width:44px;height:44px;font-size:26px;}.look-scroll-prev{left:10px;}.look-scroll-next{right:10px;}}
 </style>
 </head>
 <body>
 
 <section class="hero" style="background-image:url('none.png')">
+<div class="logo-area">
+  <img src="images/logo.png" alt="logo" class="logo-img">
+</div>
 <div class="content reveal show">
 <h1>
-  <span style="display:block; font-size:48px; letter-spacing:0.05em;"><span class="initial">T</span>omokazu Nishikata</span>
-  <span style="display:block; font-size:18px; font-weight:500; color:#aa0000; margin-top:6px; letter-spacing:0.14em;">TECHNICAL DIRECTOR / CG ARTIST</span>
+  <span style="display:block; font-size:48px; letter-spacing:0.05em;"><span class="initial">T</span>omokazu <span class="initial">N</span>ishikata</span>
+  <span style="display:block; font-size:18px; font-weight:500; color:#aa0000; margin-top:6px; letter-spacing:0.14em;">TECHNICAL DIRECTOR / CG DIRECTOR</span>
 </h1>
-<p style="color:#eee;">CG制作歴18年｜ゲーム・映像・ツール開発などの案件を横断的に受注してきました</p>
+<p style="color:#eee;">CG制作歴19年｜ゲーム・映像・アニメなどの案件を横断的に受注</p>
 <p style="color:#eee; max-width:520px;">プロジェクトの課題にテクニカルとアートの両面から対応可能です</p>
 </div>
 </section>
@@ -294,13 +369,7 @@ p{color:#ccc;margin:0 0 12px;}
     <div class="strength-item">
       <div class="strength-icon">◇</div>
       <div class="strength-body">
-        <h3>〇〇開発</h3>
-        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
-        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
-        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
-        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
-        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
-        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
+        <h3>アセットパイプライン設計</h3>
         <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
       </div>
     </div>
@@ -308,14 +377,8 @@ p{color:#ccc;margin:0 0 12px;}
     <div class="strength-item">
       <div class="strength-icon">⟲</div>
       <div class="strength-body">
-        <h3>アセットパイプライン設計</h3>
-        <p>×××××××××××××××××××××××××××××××</p>
-        <p>×××××××××××××××××××××××××××××××</p>
-        <p>×××××××××××××××××××××××××××××××</p>
-        <p>×××××××××××××××××××××××××××××××</p>
-        <p>×××××××××××××××××××××××××××××××</p>
-        <p>×××××××××××××××××××××××××××××××</p>
-        <p>×××××××××××××××××××××××××××××××</p>
+        <h3>ゲームエンジンを使用した映像制作</h3>
+        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
       </div>
     </div>
 
@@ -323,30 +386,15 @@ p{color:#ccc;margin:0 0 12px;}
       <div class="strength-icon">◉</div>
       <div class="strength-body">
         <h3>テクニカルアニメーション</h3>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
-        <p> (╯°□°）╯︵ ┻━┻ </p>
+        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
       </div>
     </div>
 
     <div class="strength-item">
       <div class="strength-icon">U</div>
       <div class="strength-body">
-        <h3>ツール作成</h3>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
-        <p> _(ゝLꒊ:)_</p>
+        <h3>2.5D系のルック開発</h3>
+        <p>〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
       </div>
     </div>
   </div>
@@ -357,8 +405,8 @@ p{color:#ccc;margin:0 0 12px;}
 <div class="content reveal">
 <h2>【実績紹介】大規模ゲーム開発</h2>
 <p class="small">役割：Technical Director / Technical Animator</p>
-<p><b>課題</b> ホゲホゲ</p>
-<p><b>成果</b> ホゲホゲ</p>
+<p><b>課題</b> 〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
+<p><b>成果</b> 〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
 <a href="https://code-vein.com/cv2/" class="btn" target="_blank" rel="noopener noreferrer">SHOW MORE</a>
 </div>
 </section>
@@ -367,8 +415,8 @@ p{color:#ccc;margin:0 0 12px;}
 <div class="content reveal">
 <h2>【実績紹介】Netflix映像作品</h2>
 <p class="small">役割：背景SV</p>
-<p><b>課題</b> ホゲホゲ</p>
-<p><b>成果</b> ホゲホゲ</p>
+<p><b>課題</b> 〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
+<p><b>成果</b> 〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
 <a href="https://cgworld.jp/feature/202003-sf4.html" class="btn" target="_blank" rel="noopener noreferrer">SHOW MORE</a>
 </div>
 </section>
@@ -377,33 +425,63 @@ p{color:#ccc;margin:0 0 12px;}
 <div class="content reveal">
 <h2>【実績紹介】バーチャルプロダクション</h2>
 <p class="small">役割：CG Director</p>
-<p><b>課題</b> ホゲホゲ</p>
-<p><b>成果</b> ホゲホゲ</p>
+<p><b>課題</b> 〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
+<p><b>成果</b> 〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇〇</p>
 <a href="https://www.sonypcl.jp/kiyosumi-shirakawa/" class="btn" target="_blank" rel="noopener noreferrer">SHOW MORE</a>
 </div>
 </section>
 
-<section style="background-image:url('https://code-vein.com/images/media/c8f7700aeef0e9ba72152f6701776081.jpeg')">
-<div class="content reveal">
-<h2>【実績紹介】スマホゲーム新規IPルック開発</h2>
-<p class="small">役割：CG Director</p>
-<p><b>課題</b> ホゲホゲ</p>
-<p><b>成果</b> ホゲホゲ</p>
-</div>
+<section class="look-scroll-section" id="lookdev-scroll">
+  <div class="look-scroll-sticky">
+    <div class="look-scroll-viewport">
+      <div class="look-scroll-stage" aria-label="スマホゲーム新規IPルック開発 横スクロール">
+        <!-- 画像はここを差し替えてください -->
+        <figure class="look-scroll-card is-active">
+          <img class="look-scroll-img" src="images/imageLookDev2.0.png" alt="">
+          <figcaption class="look-scroll-caption">セル調とPBRのGEの別進化系2.5D<span class="caption-sub">UE（西片ではない）</span></figcaption>
+        </figure>
+        <figure class="look-scroll-card">
+          <img class="look-scroll-img" src="images/imageLookDev1.0.jpg" alt="">
+          <figcaption class="look-scroll-caption">ゲームライク＋PBRのGEの正当進化系<span class="caption-sub">UnityURP</span></figcaption>
+        </figure>
+        <figure class="look-scroll-card">
+          <img class="look-scroll-img" src="images/imageLookDev3.1.png" alt="">
+          <figcaption class="look-scroll-caption">マットキャップを使用した軽量セルルック<span class="caption-sub">UnityURP</span></figcaption>
+        </figure>
+        <figure class="look-scroll-card">
+          <img class="look-scroll-img" src="images/imageLookDev4.1.png" alt="">
+          <figcaption class="look-scroll-caption">アニメライク＋質感の次世代ルック<span class="caption-sub">UE</span></figcaption>
+        </figure>
+      </div>
+    </div>
+    <button class="look-scroll-arrow look-scroll-prev" type="button" aria-label="前の画像">‹</button>
+    <button class="look-scroll-arrow look-scroll-next" type="button" aria-label="次の画像">›</button>
+    <div class="look-scroll-title reveal show">
+      <h2>新規IP向けルック開発</h2>
+      <p>役割：CG Director / Look Development</p>
+    </div>
+    <div class="look-scroll-dots" aria-hidden="true">
+      <span class="look-scroll-dot is-active"></span><span class="look-scroll-dot"></span><span class="look-scroll-dot"></span><span class="look-scroll-dot"></span>
+    </div>
+  </div>
 </section>
 
 <section style="background:#0f1115;">
 <div class="content reveal">
 <h2>その他実績</h2>
-<p class="small">Additional Works</p>
+<p class="small"></p>
 
 <ul class="other-list"> 
   <li><a href="https://fd.sao-game.jp/" target="_blank" rel="noopener noreferrer">SWORD ART ONLINE Fractured Daydream（必殺技演出）</a></li>
   <li><a href="https://store.steampowered.com/app/967240/MONKEY_KING_HERO_IS_BACK/?l=japanese" target="_blank" rel="noopener noreferrer">MONKEY KING（ムービー制作）</a></li>
+  <li><a href="https://youtu.be/lCxqy2A5SC0?t=45" target="_blank" rel="noopener noreferrer">日産長期ビジョン発表 2021（リアルタイム動画制作）</a></li>
   <li><a href="https://code-vein.com/cv1/" target="_blank" rel="noopener noreferrer">Code Vein（リードアニメーション）</a></li>
-  <li><a href="https://fd.sao-game.jp/" target="_blank" rel="noopener noreferrer">SWORD ART ONLINE Fractured Daydream（必殺技演出）</a></li>
+  <li><a href="https://toyotagazooracing.com/pages/special/latvala/" target="_blank" rel="noopener noreferrer">VS SAMURAI羅兎薔薇（ムービー制作）</a></li>
+  <li><a href="https://www.youtube.com/watch?v=lPKG1JrLQJE" target="_blank" rel="noopener noreferrer">Sony Digital Cinema 4K（ムービー制作）</a></li>
+  <li><a href="https://www.youtube.com/watch?v=Jinx3a6iFtg&t=609s" target="_blank" rel="noopener noreferrer">USJハリーポッターCM（VFX制作）</a></li>
+  <li><a href="noopener" target="_blank" rel="noopener noreferrer">ポケモンGO CM（VFX制作）</a></li>
   <li><a href="none" target="_blank" rel="noopener noreferrer">God Eater: Resurrection（イベントシーン制作）</a></li>
-  <li><a href="https://ger.godeater.jp/spec/off-shot.php" target="_blank" rel="noopener noreferrer">God Eater: Offshot（グラフィック全般）</a></li>
+  <li><a href="https://ger.godeater.jp/spec/off-shot.php" target="_blank" rel="noopener noreferrer">God Eater:Offshot Vol1~Vol7＋バカンス編（グラフィック全般）</a></li>
   <li><a href="none" target="_blank" rel="noopener noreferrer">God Eater 2: Rage Burst（イベントシーン制作）</a></li>
   <li><a href="none" target="_blank" rel="noopener noreferrer">God Eater 2（イベントシーン制作）</a></li>
   <li><a href="none" target="_blank" rel="noopener noreferrer">Ninja Gaiden 3: Razor's Edge （イベントシーン制作）</a></li>
@@ -418,7 +496,156 @@ const observer=new IntersectionObserver((entries)=>{
 entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');observer.unobserve(e.target);}});
 },{threshold:0.12});
 targets.forEach(el=>observer.observe(el));
-</script>
+
+const lookSection=document.querySelector('#lookdev-scroll');
+if(lookSection){
+  const viewport=lookSection.querySelector('.look-scroll-viewport');
+  const stage=lookSection.querySelector('.look-scroll-stage');
+  const dots=[...lookSection.querySelectorAll('.look-scroll-dot')];
+  const prevBtn=lookSection.querySelector('.look-scroll-prev');
+  const nextBtn=lookSection.querySelector('.look-scroll-next');
+
+  /*
+    改良版：
+    - 左クリック時に「先にDOMを入れ替える」のをやめ、まず左隣へ自然に移動
+    - 移動完了後にだけDOM順を整えるので、ガタ付きが出にくい
+    - 右クリック/左クリックとも、移動開始前に次のメイン画像を明るくする
+    - transformのみで移動し、filter/scaleは使わない
+  */
+  const cards=[...stage.querySelectorAll('.look-scroll-card')];
+  const originalCount=cards.length;
+  const activeSlot=1; // 常に2枚目を中央のメイン位置として扱う
+  let logicalIndex=0;
+  let locked=false;
+
+  cards.forEach((img,i)=>{
+    const pre=new Image();
+    const image=img.querySelector('.look-scroll-img');
+    if(image){
+      pre.src=image.src;
+      image.decoding='async';
+      image.loading='eager';
+    }
+    img.dataset.originalIndex=i;
+  });
+
+  const getCards=()=>[...stage.querySelectorAll('.look-scroll-card')];
+
+  const gap=()=>parseFloat(getComputedStyle(stage).gap)||0;
+
+  const cardStep=()=>{
+    const card=stage.querySelector('.look-scroll-card');
+    return card.getBoundingClientRect().width + gap();
+  };
+
+  const baseXForSlot=(slot=activeSlot)=>{
+    const currentCards=getCards();
+    if(!currentCards[slot]) return 0;
+    const active=currentCards[slot];
+    const viewportCenter=viewport.clientWidth/2;
+    const activeCenter=active.offsetLeft + active.offsetWidth/2;
+    return activeCenter - viewportCenter;
+  };
+
+  const setStageX=(x)=>{
+    stage.style.transform=`translate3d(${-x}px,0,0)`;
+  };
+
+  const paintActiveSlot=(slot)=>{
+    getCards().forEach((img,i)=>img.classList.toggle('is-active',i===slot));
+  };
+
+  const paintDots=()=>{
+    dots.forEach((dot,i)=>dot.classList.toggle('is-active',i===logicalIndex));
+  };
+
+  const setInstant=()=>{
+    stage.style.transition='none';
+    setStageX(baseXForSlot(activeSlot));
+    paintActiveSlot(activeSlot);
+    paintDots();
+    // 強制リフローで transition:none を確定
+    stage.offsetHeight;
+    stage.style.transition='transform .72s cubic-bezier(.16,.84,.22,1)';
+  };
+
+  const unlockSafely=()=>{
+    setInstant();
+    locked=false;
+  };
+
+  // 初期配置：中央スロットが論理0になるように末尾を前へ移動
+  for(let i=0;i<activeSlot;i++){
+    stage.insertBefore(stage.lastElementChild, stage.firstElementChild);
+  }
+  setInstant();
+
+  const next=()=>{
+    if(locked) return;
+    locked=true;
+
+    const baseX=baseXForSlot(activeSlot);
+    const step=cardStep();
+
+    // 右隣を即座に明るくする
+    paintActiveSlot(activeSlot+1);
+    logicalIndex=(logicalIndex+1)%originalCount;
+    paintDots();
+
+    stage.style.transition='transform .72s cubic-bezier(.16,.84,.22,1)';
+    setStageX(baseX+step);
+
+    const onEnd=(e)=>{
+      if(e.propertyName !== 'transform') return;
+      stage.removeEventListener('transitionend',onEnd);
+
+      // 見た目が同じ状態でDOM順だけ整える
+      stage.appendChild(stage.firstElementChild);
+      unlockSafely();
+    };
+    stage.addEventListener('transitionend',onEnd);
+
+    // 念のため transitionend が拾えない環境の保険
+    window.setTimeout(()=>{ if(locked) { stage.removeEventListener('transitionend',onEnd); stage.appendChild(stage.firstElementChild); unlockSafely(); } }, 900);
+  };
+
+  const prev=()=>{
+    if(locked) return;
+    locked=true;
+
+    const baseX=baseXForSlot(activeSlot);
+    const step=cardStep();
+
+    // 左隣を即座に明るくする
+    paintActiveSlot(activeSlot-1);
+    logicalIndex=(logicalIndex-1+originalCount)%originalCount;
+    paintDots();
+
+    stage.style.transition='transform .72s cubic-bezier(.16,.84,.22,1)';
+    setStageX(baseX-step);
+
+    const onEnd=(e)=>{
+      if(e.propertyName !== 'transform') return;
+      stage.removeEventListener('transitionend',onEnd);
+
+      // 左へ移動し終わってからDOM順を整えるので、左クリック時のガタ付きを抑えられる
+      stage.insertBefore(stage.lastElementChild, stage.firstElementChild);
+      unlockSafely();
+    };
+    stage.addEventListener('transitionend',onEnd);
+
+    window.setTimeout(()=>{ if(locked) { stage.removeEventListener('transitionend',onEnd); stage.insertBefore(stage.lastElementChild, stage.firstElementChild); unlockSafely(); } }, 900);
+  };
+
+  nextBtn.addEventListener('click',next);
+  prevBtn.addEventListener('click',prev);
+
+  // マウスホイールやドラッグでは横移動させない
+  viewport.addEventListener('wheel',()=>{}, {passive:true});
+  viewport.addEventListener('pointerdown',()=>{}, {passive:true});
+
+  window.addEventListener('resize',setInstant);
+}</script>
 
 </body>
 </html>
